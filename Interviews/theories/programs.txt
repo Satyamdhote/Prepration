@@ -1,0 +1,753 @@
+// 1. Reverse a String Without Using Built-in Functions
+Ans -> Swap
+
+2. Check if a String is a Palindrome, Ignoring Case
+Ans -> Two pointer approach. Put i=0 and j=n-1, check this two for Equality
+
+3. Count the Number of Vowels and Consonants in a String
+const calcTypeOfLetters = (str) => {
+  const res = { Vowels: 0, Consonants : 0 }
+  const VOWELS = ["a","e","i","o","u"]
+  
+  for(let char of str){
+    if(VOWELS.includes(char.toLowerCase())){
+      res["Vowels"] = res["Vowels"] + 1
+    }else {
+      res["Consonants"] = res["Consonants"] + 1
+    }
+  }
+  
+  return res
+}
+
+4. Find the Longest Substring Without Repeating Characters
+Input: s = "abcabcbb"
+Output: 3
+Explanation: The answer is "abc", with the length of 3.
+
+Input: s = "pwwkew"
+Output: 3
+
+var lengthOfLongestSubstring = function(s) {
+    if(s.length === 0) {
+        return 0;
+    }
+    if(s.length === 1) {
+        return 1;
+    }
+    let set = new Set();
+    var left = 0;
+    var max = 0;
+    for(let i=0;i<s.length;i++) {
+        while(set.has(s.charAt(i))) {
+            set.delete(s.charAt(left));
+            left++;
+        }
+        set.add(s.charAt(i));
+        max = Math.max(max, i-left+1);
+    }
+    return max;
+};
+
+5. Check if a String Contains Only Digits
+Ans ->  We can check using isNaN() os ASCII values 
+
+function isNumeric(str) {
+    return str.length > 0 && [...str].every(char => char.charCodeAt(0) >= 48 && char.charCodeAt(0) <= 57);
+}
+
+function isNumeric(str) {
+    return str !== '' && !isNaN(str);
+}
+
+
+6. Remove All Punctuation from a String
+function remove(str) {
+    return str.replace(/[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]/g, '');
+}
+let str = "Welcome, to the geeksforgeeks!!!";
+console.log(remove(str)); 
+
+
+7. Swap Case of Each Character in a String
+let str = "GeEkSfOrGeEkS";
+    let x = "";
+    for (let i = 0; i < str.length; i++) {
+      let ch = str[i];
+      if(str.charAt(i) === str.charAt(i).toUpperCase())
+        x += str.charAt(i).toLowerCase(ch);
+      else
+        x += str.charAt(i).toUpperCase(ch);
+    }
+    console.log(x);
+
+8. Find the First Non-Repeating Character in a String
+var firstUniqChar = function(s) {
+    if(s.length === 1) {
+        return 0;
+    }
+    const map = new Map();
+    for(let i=0;i<s.length;i++) {
+        map.set(s[i], (map.get(s[i]) || 0) + 1);
+    }
+    
+    for(let i=0;i<s.length;i++) {
+        if(map.get(s[i]) === 1) {
+            return i;
+        }
+    }
+    return -1;
+};
+
+
+9. Convert a String to a Character Array and Back
+str.split('') and str.join('')
+
+10. Count the Number of Words in a String Using Regex
+
+
+11. Implement String Compression Using Counts of Repeating Characters
+
+12.Extract a substring between 2 Characters
+    slice(start, end)
+    -> slice() extracts a part of a string and returns the extracted part in a new string.
+
+    The method takes 2 parameters: start position, and end position (end not included).
+
+
+    substring(start, end)
+    substring() is similar to slice().
+
+    The difference is that start and end values less than 0 are treated as 0 in substring().
+
+
+    substr(start, length)
+    substr() is similar to slice().
+
+    The difference is that the second parameter specifies the length of the extracted part.
+
+13. Check if 2 strings are rotation of each other
+function areRotations(s1, s2) {
+    s1 += s1;
+
+    // find s2 in concatenated string
+    return s1.includes(s2);
+}
+
+// driver code
+const s1 = "aab";
+const s2 = "aba";
+
+console.log(areRotations(s1, s2) ? "true" : "false");
+
+EXTRA - 
+Given a string S, remove consecutive duplicates from it recursively.
+public static String removeConsecutiveDuplicates(String s) 
+    {
+        int n=s.length();
+        if(n<=1)
+        {
+            return s;
+        }
+        if(s.charAt(0)==s.charAt(1))
+        {
+            String smallOutput=removeConsecutiveDuplicates(s.substring(1));
+            return smallOutput;
+        }
+        else
+        {
+            String smallOutput=removeConsecutiveDuplicates(s.substring(1));
+            return s.charAt(0)+smallOutput;
+        }
+    }
+
+14. Find All Permutations of a Given Number and String 
+NUMBER - 
+var permute = function(nums) {
+    const recurse = (start) => {
+        if(start === nums.length) {
+            res.push([...nums]);
+            return;
+        }
+
+        for(let i=start; i<nums.length;i++) {
+            [nums[start], nums[i]] = [nums[i], nums[start]];
+            recurse(start+1);
+            [nums[start], nums[i]] = [nums[i], nums[start]];
+        }
+    }
+    let res = [];
+    recurse(0);
+    return res;
+};
+
+STRING
+
+function permute(str, l = 0, r = str.length - 1) {
+    if (l === r) {
+        console.log(str); // Print or store the permutation
+        return;
+    }
+    for (let i = l; i <= r; i++) {
+        str = swap(str, l, i); 
+        permute(str, l + 1, r);
+        str = swap(str, l, i); // Backtrack
+    }
+}
+
+function swap(s, i, j) {
+    let arr = s.split('');
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+    return arr.join('');
+}
+
+// Example Usage
+permute("abc");
+
+
+
+
+15. Find the Minimum Number of Steps to Convert One String to Another
+
+
+16. Count the Frequency of Each Character in a String
+Map
+
+17. Create a New String by Removing All Occurrences of a Given Character
+    let str = "Geeks-for-Geeks";
+    let res = str.split("e").join('');
+    console.log(res);
+
+18. Determine if a String is a Valid Number (Integer/ Float)
+function isValidNumber(str) {
+    if (str.trim() === "") {
+        return false;
+    }
+
+    const num = parseFloat(str);
+
+    // Check if the result is NaN (Not a Number) or if the parsed string is not the same as the input string
+    // This ensures the string represents a valid number and not an invalid float (like "123abc")
+    return !isNaN(num) && num.toString() === str.trim();
+}
+
+
+19. Check if a String is an Isogram (No Repeated Characters)
+An Isogram is a word in which no letter occurs more than once
+Check set length
+
+
+20. Implement a Method to Compare Two Strings for Equality (Without Using .equals())
+function areStringsEqual(str1, str2) {
+    // First, check if the lengths are the same
+    if (str1.length !== str2.length) {
+        return false;  // Strings of different lengths are not equal
+    }
+
+    // Compare each character of both strings
+    for (let i = 0; i < str1.length; i++) {
+        if (str1[i] !== str2[i]) {
+            return false;  // If any character is different, return false
+        }
+    }
+
+    // If no differences were found, the strings are equal
+    return true;
+}
+
+
+21. Rotate a String to the Left by a Given Number of Characters
+Right - 
+let arr = ['a', 'b', 'c', 'd'];
+let k=2;
+ 
+for(let i=0;i<k;i++) {
+    arr.push(arr.shift());
+}
+
+console.log('ARR', arr);
+
+Left
+let arr = ['a', 'b', 'c', 'd', 'e'];
+let k=2;
+ 
+for(let i=0;i<k;i++) {
+    arr.unshift(arr.pop());
+}
+
+console.log('ARR', arr);
+
+
+22. Replace All Instances of a Substring with Another Substring
+    let str = "abcxyz";
+    console.log(str.replace("xyz","mno"))
+
+23. Check if a String is a Subsequence of Another String
+Given two strings s and t, return true if s is a subsequence of t, or false otherwise.
+
+A subsequence of a string is a new string that is formed from the original string by deleting some 
+(can be none) of the characters without disturbing the relative positions of the remaining characters. 
+(i.e., "ace" is a subsequence of "abcde" while "aec" is not).
+
+Example 1:
+
+Input: s = "abc", t = "ahbgdc"
+Output: true
+Example 2:
+Input: s = "axc", t = "ahbgdc"
+Output: false
+
+
+var isSubsequence = function(s, t) {
+    let i=0, j=0;
+    while(i<s.length && j<t.length) {
+        if(s[i] === t[j]) {
+            i++;
+        }
+        j++
+    }
+    return i === s.length;
+};
+
+24. Find All Unique Characters in a String
+function findUniqueChars(str) {
+    return str.split("").filter((char, i, str) => str.indexOf(char) === str.lastIndexOf(char));
+}
+
+second -> 
+function uniqueCharacters(str) {
+    let set = new Set();
+    let duplicates = new Set();
+
+    for (let char of str) {
+        if (set.has(char)) {
+            duplicates.add(char);
+        } else {
+            set.add(char);
+        }
+    }
+
+    // Remove duplicate characters from set
+    for (let char of duplicates) {
+        set.delete(char);
+    }
+
+    return [...set]; // Convert Set to Array
+}
+
+
+25. Convert a Given String to Camel Case
+function toCamelCase(str) {
+    return str
+        .toLowerCase()
+        .split(/[^a-zA-Z0-9]+/) // Split by spaces, dashes, underscores, etc.
+        .map((word, index) =>
+            index === 0
+                ? word // Keep the first word as lowercase
+                : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+        )
+        .join('');
+}
+
+
+26. Count the Number of Times One String Occurs in Another
+function countOccurrences(str, subStr) {
+    let count = 0;
+    let index = str.indexOf(subStr); // Find first occurrence
+
+    while (index !== -1) { // Keep searching while found
+        count++;
+        index = str.indexOf(subStr, index + subStr.length); // Move past last found occurrence
+    }
+
+    return count;
+}
+console.log(countOccurrences("hello hello world hello", "hello")); // 3
+console.log(countOccurrences("abababab", "aba")); // 2 (non-overlapping)
+console.log(countOccurrences("abcabcabc", "abc")); // 3
+
+
+27. Extract Numbers from a String and Return as a List
+
+let str = "Price is 150 dollars and 20 cents. 30";
+
+function check() {
+    let number = '';
+    let result = [];
+    for(i=0;i<str.length;i++) {
+        if(!isNaN(str[i]) && str[i]!==' ') {
+            number = number + str[i]
+        } else if(number.length > 0) {
+            result.push(Number(number));
+            number = ''
+        }
+    }
+    if (number.length > 0) { // Capture any number left at the end
+        result.push(Number(number));
+    }
+    console.log(result);
+}
+
+check();
+
+28. Find the Position of a Substring in a String
+function findSubstringPosition(str, subStr) {
+    return str.indexOf(subStr); // Returns the index of first occurrence, or -1 if not found
+}
+
+// Example usage:
+console.log(findSubstringPosition("Hello world", "world")); // 6
+console.log(findSubstringPosition("Hello world", "abc")); // -1
+console.log(findSubstringPosition("Find me", "me")); // 5
+
+
+29. Merge Two Strings Alternately
+function mergeAlternately(str1, str2) {
+    let result = '';
+    let len1 = str1.length;
+    let len2 = str2.length;
+    let i = 0;
+
+    // Loop until one of the strings is exhausted
+    while (i < len1 || i < len2) {
+        if (i < len1) result += str1[i];  // Add character from str1 if available
+        if (i < len2) result += str2[i];  // Add character from str2 if available
+        i++;
+    }
+
+    return result;
+}
+
+// Example usage:
+console.log(mergeAlternately("abc", "123")); // "a1b2c3"
+console.log(mergeAlternately("abcd", "12")); // "a1b2cd"
+console.log(mergeAlternately("hello", "world")); // "hweolrllod"
+
+30.Find missing and duplicate
+function printTwoElements(arr) {
+    let n = arr.length;
+    let s = (n * (n + 1)) / 2;
+    let ssq = (n * (n + 1) * (2 * n + 1)) / 6;
+
+    let missing = 0;
+    let repeating = 0;
+
+    for (let i = 0; i < n; i++) {
+        s -= arr[i];
+        ssq -= arr[i] * arr[i];
+    }
+    
+    console.log('S', s);
+    console.log('SSQ', ssq);
+
+    missing = (s + Math.floor(ssq / s)) / 2;
+    repeating = missing - s;
+
+    console.log("Repeating:", repeating);
+    console.log("Missing:", missing);
+}
+
+let arr = [4, 3, 6, 2, 1, 6, 7];
+printTwoElements(arr);
+
+31. Find the second largest element in the array
+function getSecondLargest(arr) {
+    const n = arr.length;
+
+    let largest = -1, secondLargest = -1;
+
+    for (let i = 0; i < n; i++) {
+        if (arr[i] > largest) {
+            secondLargest = largest;
+            largest = arr[i];
+        }
+        else if (arr[i] < largest && arr[i] > secondLargest) {
+            secondLargest = arr[i];
+        }
+    }
+    return secondLargest;
+}
+
+const arr = [12, 35, 1, 10, 34, 1];
+console.log(getSecondLargest(arr));
+
+32. Reverse Words in a String
+Example 1:
+
+Input: s = "Let's take LeetCode contest"
+Output: "s'teL ekat edoCteeL tsetnoc"
+
+    var reverseWords = function(str) {
+        return str.split("").reverse().join("").split(" ").reverse().join(" ");
+    };
+
+Type 2 - 
+Input: s = “geeks quiz practice code” 
+Output: s = “code practice quiz geeks”
+
+
+var reverseWords = function(str) {
+    return str.split(" ").reverse().join(" ")
+};
+
+// function memoized() {
+//     let cache = {};
+//     console.log('CACHE', cache);
+//     return function (num) {
+//         if(cache[num]) {
+//             console.log('IN CACHE');
+//             return cache[num];
+//         } else {
+//             console.log('OUTSIDE');
+//             cache[num] = num + 200;
+//             return cache[num];
+//         }
+//     }
+// }
+
+
+// const funcCall = memoized();
+// const add200 = funcCall(20);
+// const add2002 = funcCall(20);
+// console.log('ADD', add200);
+// console.log('ADD2', add2002);
+
+
+
+
+// function counter() {
+//     let count = 0;
+//     return function() {
+//         count++;
+//         return count;
+//     }
+// }
+
+
+// const a = counter();
+// console.log(a());
+// console.log(a());
+// console.log(a());
+// console.log(a());
+
+
+
+
+// const arr = [1, [2, 3], [3, 4], [5, [5, 6]]];
+
+
+    function flattenArray(arr) {
+        return arr.reduce((acc, value) => {
+            return Array.isArray(value) ? acc.concat(flattenArray(value)) : acc.concat(value);
+        }, []);
+    }
+
+
+// console.log(flattenArray(arr));
+
+
+//Flatten object
+const flattenObject = (obj, parent) => {
+    const resObj = {};
+    const generateFlatObject = (obj, parent) => {
+        for(let key in obj) {
+            const newParent = parent+key;
+            const value = obj[key];
+            if(typeof value === 'object'){
+                generateFlatObject(value, newParent+".")
+            } else {
+                resObj[newParent] = value
+            }
+        }
+    }
+    generateFlatObject(obj, parent);
+    return resObj;
+}
+
+//For Arrays
+const flattenObject = (obj, parent='') => {
+    let resObj = {};
+    const generateFlatObject = (obj, parent) => {
+        for(let key in obj) {
+            const newParent = parent ? parent+"."+key : key;
+            const value = obj[key];
+            if(typeof(value) === 'object' && value !== null && !Array.isArray(value)){
+                generateFlatObject(value, newParent);
+            }else {
+                resObj[newParent] = value;
+            }
+        }
+    }
+    generateFlatObject(obj, parent);
+    return resObj;
+}
+
+const obj = {
+    name: "John",
+    address: {
+        city: "New York",
+        zip: {
+            code: 10001,
+            extension: 1234
+        }
+    },
+    hobbies: ["reading", "gaming"]
+};
+
+const flattened = flattenObject(obj, "");
+console.log(flattened);
+
+
+
+
+
+// console.log('Start');
+// process.nextTick(() => console.log('Next Tick')); // Executes first
+// Promise.resolve((resolve) => resolve('Promise')).then((data) => console.log('PROMISE RESOLVD'));
+// setTimeout(() => console.log('SETTIMEOUT'), 2000)
+// setImmediate(() => console.log('Set Immediate')); // Executes after I/O
+// console.log('End');
+Start
+End
+Next Tick
+PROMISE RESOLVD
+Set Immediate
+SETTIMEOUT
+
+
+// function fetchData(callback) {
+//     console.log('Fetching...');
+//     setTimeout(() => {
+//         let user = { name: "Satyam", age: 28}
+//         return callback(user);
+//     }, 3000)
+// }
+
+
+// function displayData(data) {
+//     console.log('DATA FETCHED', data);
+// }
+
+
+// fetchData(displayData);
+
+
+// function fetchUsers() {
+//     return new Promise((resolve) => {
+//         setTimeout(() => {
+//             resolve({id: 1, name: "Satyam", age:28});
+//         })
+//     })
+// }
+
+
+// function fetchOrder(userId) {
+//     return new Promise((resolve) => {
+//         setTimeout(() => {
+//             resolve({order: "Pencil"});
+//         })
+//     })
+// }
+
+
+// fetchUsers().then((data) => {
+//    const userId = data.id;
+//    return fetchOrder(userId)
+// }).then((data) => {
+//     console.log('DATA', data);
+// })
+
+
+// function fetchData() {
+//     return new Promise((resolve) => setTimeout(() => resolve('Data Loaded'), 2000));
+//    }
+//    function timeout(ms) {
+//     return new Promise((_, reject) => setTimeout(() => reject('Timeout!'), ms));
+//    }
+//    Promise.race([fetchData(), timeout(3000)])
+//     .then((data) => console.log(data))
+//     .catch((error) => console.error(error));
+
+
+
+
+// function stopwatch(timer) {
+//     return function countDown() {
+//         if(timer === 0) {
+//             console.log('STOP')
+//             return;
+//         }
+//         console.log('TIME', timer);
+//         timer--;
+//         setTimeout(countDown, 1000)
+//     }
+// }
+
+
+// const timer = stopwatch(5);
+// timer();
+
+
+// function countdown(seconds) {
+//     const interval = setInterval(() => {
+//     console.log(seconds);
+//     seconds--;
+//     if (seconds < 0) {
+//     clearInterval(interval); // Stop the timer
+//     console.log('Countdown complete!');
+//     }
+//     }, 1000);
+//    }
+//    countdown(5);
+
+
+function delay(ms) {
+   return new Promise((resolve) => setTimeout(resolve, ms));
+
+
+}
+async function delayedLoop() {
+   for (let i = 1; i <= 3; i++) {
+       console.log(`Iteration ${i}`);
+       await delay(1000); // 1-second delay
+   }
+   console.log('Loop complete!');
+}
+delayedLoop()
+
+
+// function sortMap(map) {
+//     // Sort by key
+//     console.log('MAP', new Map([...map.entries()]))
+//     const sortedByKey = new Map([...map.entries()].sort(([a], [b]) => a.localeCompare(b)));
+ //     // Sort by value (ascending)
+//     const sortedByValueAsc = new Map([...map.entries()].sort(([a, valA], [b, valB]) => valA - valB));
+ //     // Sort by value (descending)
+//     const sortedByValueDesc = new Map([...map.entries()].sort(([a, valA], [b, valB]) => valB - valA));
+ //     return {
+//       sortedByKey,
+//       sortedByValueAsc,
+//       sortedByValueDesc,
+//     };
+//   }
+ //   // Example usage
+//   const myMap = new Map([
+//     ['apple', 2],
+//     ['banana', 1],
+//     ['cherry', 3],
+//   ]);
+ //   const sortedMaps = sortMap(myMap);
+ //   console.log("Sorted by Key:", sortedMaps.sortedByKey);
+//   console.log("Sorted by Value (Ascending):", sortedMaps.sortedByValueAsc);
+//   console.log("Sorted by Value (Descending):", sortedMaps.sortedByValueDesc);
+
+
+// var mergeTwoLists = function(list1, list2) {
+//     const ans = [...list1, ...list2]
+//     console.log("ANS", ans.sort());
+//     return [];
+// };
+// mergeTwoLists([], [0])
+
+
+

@@ -1,0 +1,228 @@
+1. What is the process of designing an API from scratch?
+Ans -> 
+        1. Define API Requirements
+        2. Choose API Architecture
+            REST (Representational State Transfer) – Uses HTTP methods (GET, POST, PUT, DELETE).
+            GraphQL – Flexible queries, returns only requested data.
+            gRPC – High-performance binary protocol for microservices.
+            WebSockets – Real-time communication.
+        3.  Plan API Endpoints & Data Models
+            GET /users/1
+            and {
+                    "id": 1,
+                    "name": "John Doe",
+                    "email": "john@example.com",
+                    "created_at": "2025-03-12T12:00:00Z"
+                }
+
+        4. Versioning & Maintenance  
+        5. Choose Tech Stack
+            Backend Framework: FastAPI, Express.js, Django, Flask, Spring Boot
+            Database: PostgreSQL, MongoDB, MySQL, Redis (caching)
+            Authentication: JWT, OAuth2, API keys
+            Deployment: Docker, Kubernetes, AWS Lambda, Cloud Functions
+
+        6. Implementation
+
+2. What are some best practices for RESTful API design?
+        1️⃣ Use Proper HTTP Methods
+            Follow CRUD (Create, Read, Update, Delete) operations with appropriate HTTP methods
+
+        2️⃣ Use Meaningful Resource Names
+            ❌ Bad: /getUser, /update-user, /deleteUser
+            ✅ Good: /users/{id}, /products/{id}
+            💡 Keep resource names plural
+
+            /users ✅
+            /products/{id}/reviews ✅
+
+        3️⃣ Use Status Codes Correctly
+            Return proper HTTP status codes to indicate success or failure:
+
+            Status Code	Meaning
+            200 OK	Request succeeded
+            201 Created	New resource created
+            204 No Content	Successfully deleted
+            400 Bad Request	Invalid input
+            401 Unauthorized	Authentication required
+            403 Forbidden	No permission
+            404 Not Found	Resource doesn't exist
+            500 Internal Server Error
+
+        4️⃣ Use Query Parameters for Filtering & Pagination
+            Filtering, Sorting, and Searching
+                ✅ /products?category=electronics&sort=price_desc&limit=10
+                ✅ /users?search=john&role=admin
+
+            Pagination
+                ✅ /products?page=2&limit=10
+
+        5️⃣ Secure Your API
+            🔐 Use Authentication (JWT, OAuth2, API Keys)
+            🔐 Rate Limiting (Prevent abuse with X-Rate-Limit headers)
+            🔐 Use HTTPS (Encrypt communication)
+            🔐 Validate Input (Sanitize and avoid SQL injection)
+
+        6️⃣ Use Versioning for Backward Compatibility
+            Version your API to avoid breaking changes:
+                ✅ /v1/users
+                ✅ /v2/users
+
+        7️⃣ Standardize Error Responses
+            {
+            "error": "Invalid email format",
+            "code": 400
+            }
+        9️⃣ Optimize Performance (Caching & Compression)
+            🚀 Enable Caching using ETag and Cache-Control headers:
+
+            http
+            Copy code
+            Cache-Control: max-age=3600
+            ETag: "abc123"
+
+        🔟 Document Your API (Swagger, OpenAPI)
+
+3. 1. What is JWT, and how does it work?
+Answer:
+    JWT (JSON Web Token) is an open standard (RFC 7519) used for securely transmitting information between parties as a JSON object. It is commonly used for authentication and authorization.
+
+    Structure of JWT
+    A JWT consists of three parts:
+
+    Header – Contains the token type (JWT) and signing algorithm (HS256, RS256).
+    Payload – Contains claims (user information, permissions, etc.).
+    Signature – Used to verify the authenticity of the token.
+    Example JWT:
+    eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMjMsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjkwODAwMDAsImV4cCI6MTY5MDg4NjQwMH0.KYFOoah9LAlNCH6YcHcvF8iBhz0M6CPOG8
+
+How JWT Works?
+    User logs in and receives a JWT token.
+    On every request, the token is sent via Authorization: Bearer <token>.
+    The server validates the signature to ensure integrity.
+    If valid, the user is authenticated and allowed access.
+    2. How do you validate a JWT?
+    Answer:
+    To validate a JWT:
+
+    Check Header: Ensure the token is using a supported algorithm (HS256, RS256).
+    Verify Signature: Decode and verify the signature using a secret key (for HS256) or public/private key (for RS256).
+    Check Expiry (exp claim): Ensure the token is not expired.
+    Check Audience (aud) & Issuer (iss claim): Validate the token was issued by a trusted source.
+    Check User Claims: Verify the claims (like roles, user ID, permissions).
+    Example:
+
+    python
+    Copy code
+    import jwt
+
+    SECRET_KEY = "my_secret"
+
+    def validate_jwt(token):
+        try:
+            decoded = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+            return decoded
+        except jwt.ExpiredSignatureError:
+            return "Token expired"
+        except jwt.InvalidTokenError:
+            return "Invalid token"
+
+3. What is the difference between OAuth 1.0 and OAuth 2.0?
+Answer:
+    Feature	OAuth 1.0	OAuth 2.0
+    Security	Uses complex cryptographic signing	Uses simpler bearer tokens
+    Token Type	Requires signature for every request	Uses access token
+    Performance	Slower due to encryption	Faster, simpler
+    Usage	Suitable for high-security apps	Widely used in APIs, web apps
+    Example	Twitter OAuth 1.0	Google, Facebook, GitHub OAuth 2.0
+    OAuth 2.0 is more flexible, supports mobile apps, and is the industry standard.
+
+4. What is the difference between Authentication and Authorization?
+Answer:
+    Aspect	Authentication	Authorization
+    Definition	Verifies user identity	Grants permission to access resources
+    What it checks?	Who are you?	What can you do?
+    Example	Login with username/password	Accessing admin dashboard
+    Technology Used	JWT, OAuth, SAML	Role-Based Access Control (RBAC)
+    When it happens?	Before authorization	After authentication
+    Example:
+
+    Authentication: User logs in with email/password.
+    Authorization: User is allowed or denied access to a page based on roles.
+
+5. How does OAuth 2.0 work? Explain the authorization code flow.
+Answer:
+    OAuth 2.0 allows third-party apps to access user data without exposing credentials.
+
+    Authorization Code Flow (Most Secure Flow)
+    User Requests Access → User clicks “Login with Google”.
+    Authorization Request → App redirects user to OAuth provider (https://accounts.google.com).
+    User Approves → User logs in and grants permission.
+    Authorization Code Issued → Google sends a temporary code to the app.
+    Token Exchange → The app exchanges the code for an access token.
+    API Access → App uses the token to access Google APIs.
+    Example Request
+    http
+    Copy code
+    GET https://accounts.google.com/o/oauth2/auth?
+        client_id=CLIENT_ID&
+        redirect_uri=CALLBACK_URL&
+        response_type=code&
+        scope=email profile
+6. What are refresh tokens, and why are they needed?
+    Answer:
+    Refresh Tokens are long-lived tokens used to request new access tokens when the current access token expires.
+
+    Why Needed?
+    Access tokens have a short lifespan (e.g., 15 mins).
+    Instead of asking the user to log in again, refresh tokens generate a new access token silently.
+    How It Works?
+    User logs in → Receives access token + refresh token.
+    Access token expires → App sends refresh token to OAuth server.
+    OAuth server verifies refresh token → Issues new access token.
+    Example Request to Refresh Token
+    h
+    Copy code
+    POST https://oauth2.googleapis.com/token
+    Content-Type: application/x-www-form-urlencoded
+
+    client_id=CLIENT_ID&
+    client_secret=CLIENT_SECRET&
+    refresh_token=REFRESH_TOKEN&
+    grant_type=refresh_token
+
+7. What are some common security vulnerabilities in OAuth and JWT?
+Answer:
+    Token Leakage → If an attacker gets a JWT, they can access resources.
+    Solution: Use short-lived tokens, enable token revocation.
+    No Signature Verification → JWTs without a signature can be tampered with.
+    Solution: Always verify signatures using the correct algorithm.
+    Replay Attacks → Stolen tokens can be reused.
+    Solution: Implement one-time use tokens or nonce values.
+    Weak Secrets → Using weak signing keys (HS256 with a short secret).
+    Solution: Use RS256 (public/private keys) or strong HMAC secrets.
+    Scopes Misuse → If an app gets full access, it can perform actions beyond its intended scope.
+    Solution: Use least privilege principle (only grant required scopes).
+
+
+    1. What is Single Sign-On (SSO) and how does it work?
+Answer:
+    Single Sign-On (SSO) is an authentication process that allows users to log in once and access multiple applications without re-entering credentials.
+
+    How SSO Works?
+    User logs in to the Identity Provider (IdP).
+    IdP authenticates the user and creates a session.
+    When the user accesses another application (Service Provider - SP), it redirects to the IdP.
+    IdP verifies session and returns a token/assertion (SAML, JWT, or OAuth token).
+    The SP grants access without requiring another login.
+    Example:
+    Logging into Google once and getting access to Gmail, YouTube, Drive without additional logins.
+
+    
+2. What are the benefits of Single Sign-On (SSO)?
+    Answer:
+    ✅ Improves user experience – Users don’t need to remember multiple passwords.
+    ✅ Enhances security – Reduces password fatigue, minimizes phishing risks.
+    ✅ Reduces IT workload – Fewer password resets and login issues.
+    ✅ Centralized authentication – Easier to enforce security policies.
+    ✅ Better compliance – Logs all authentication attempts for audit purposes
